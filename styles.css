@@ -22,7 +22,9 @@ body {
 }
 
 .logo {
-    max-width: 300px; /* Adjust size if needed */
-    width: 100%;
-    height: auto;
+    position: absolute;
+    top: 20px;  /* Moves logo to the top */
+    left: 50%;
+    transform: translateX(-50%); /* Keeps it centered horizontally */
+    max-width: 200px; /* Adjust size if needed */
 }
