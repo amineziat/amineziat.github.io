@@ -26,5 +26,5 @@ body {
     top: 20px;  /* Moves logo to the top */
     left: 50%;
     transform: translateX(-50%); /* Keeps it centered horizontally */
-    max-width: 200px; /* Adjust size if needed */
+    max-width: 1000px; /* Adjust size if needed */
 }
