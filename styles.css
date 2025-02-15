@@ -37,9 +37,9 @@ body {
     gap: 15px;
 }
 
-.social-icons img {
-    width: 40px;
-    height: 40px;
+.social-icons a {
+    font-size: 50px; /* Increased size */
+    color: black !important; /* Force black color */
     transition: transform 0.2s ease-in-out;
 }
 
