@@ -37,32 +37,31 @@
         </div>
 
         <!-- Latest Tweet Section -->
-<div id="latest-tweet"></div>
-
-<!-- Twitter Script -->
-<script>
-    async function fetchLatestTweet() {
-        try {
-            const username = "pixelamin"; // Change to your username
-            const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://nitter.net/${username}/rss`);
-            const data = await response.json();
-            
-            if (data.items && data.items.length > 0) {
-                document.getElementById("latest-tweet").innerHTML = `
-                    <div class="tweet-box">
-                        <p>${data.items[0].title}</p>
-                        <a href="${data.items[0].link}" target="_blank">View on Twitter</a>
-                    </div>
-                `;
-            }
-        } catch (error) {
-            console.error("Error fetching tweet:", error);
-            document.getElementById("latest-tweet").innerHTML = "<p>Could not load tweet.</p>";
-        }
-    }
-
-    fetchLatestTweet();
-</script>
+        <div id="latest-tweet"></div>
     </div>
+
+    <script>
+        async function fetchLatestTweet() {
+            try {
+                const username = "pixelamin"; // Change this to your Twitter username
+                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://nitter.net/${username}/rss`);
+                const data = await response.json();
+                
+                if (data.items && data.items.length > 0) {
+                    document.getElementById("latest-tweet").innerHTML = `
+                        <div class="tweet-box">
+                            <p>${data.items[0].title}</p>
+                            <a href="${data.items[0].link}" target="_blank">View on Twitter</a>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error("Error fetching tweet:", error);
+                document.getElementById("latest-tweet").innerHTML = "<p>Could not load tweet.</p>";
+            }
+        }
+
+        fetchLatestTweet();
+    </script>
 </body>
 </html>
