@@ -36,8 +36,13 @@
             <a href="https://www.pixels.tips/players/660887166afcbf827f9393ef" target="_blank" class="btn">AMIN PIXELS ACCOUNT</a>
         </div>
 
-        <!-- This is where the tweet link will appear -->
-<div id="tweet-box">Loading latest tweet...</div>
+        <!-- Twitter Post -->
+<div class="twitter-container">
+    <blockquote class="twitter-tweet" data-theme="dark" id="twitter-frame">
+        <a href=""></a> <!-- Will be updated dynamically -->
+    </blockquote> 
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
 
 <!-- JavaScript to Fetch Latest Tweet -->
 <script>
@@ -47,12 +52,18 @@
         
         if (!response.ok) throw new Error("Network response was not ok");
 
-        const tweetLink = await response.text(); // If returning plain text
-        document.getElementById("tweet-box").innerHTML = `<a href="${tweetLink}" target="_blank">View Latest Tweet</a>`;
+        const tweetLink = await response.text(); // Get the tweet link
+        
+        // Update the blockquote with the new tweet link
+        const twitterFrame = document.getElementById("twitter-frame");
+        twitterFrame.innerHTML = `<a href="${tweetLink}"></a>`;
+
+        // Reload Twitter widgets to embed the tweet
+        twttr.widgets.load();
 
     } catch (error) {
         console.error("Error fetching tweet:", error);
-        document.getElementById("tweet-box").innerText = "Failed to load tweet.";
+        document.getElementById("twitter-frame").innerText = "Failed to load tweet.";
     }
 }
 
