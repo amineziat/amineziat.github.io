@@ -73,6 +73,10 @@ body {
     background: rgba(0, 174, 255, 1);
 }
 
+iframe#twitter-frame::before {
+    display: none !important;
+}
+
 .twitter-container {
     width: 100%;
     max-width: 320px; /* Keeps it small */
