@@ -84,5 +84,5 @@ body {
     position: absolute; /* Change to absolute to move freely */
     left: 50%; /* Move to the center */
     transform: translateX(-50%); /* Adjust to perfectly center */
-    top: 400px; /* Adjust this value as needed */
+    top: 300px; /* Change this to move up/down */
 }
