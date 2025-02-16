@@ -74,11 +74,18 @@ body {
 }
 
 .twitter-container {
-    position: absolute;
-    right: 100px;  /* Moves it to the right */
-    top: 50%;
-    transform: translateY(-50%);
-    max-width: 300px; /* Adjust width */
-    z-index: -1; /* Moves it behind other elements */
-    pointer-events: none; /* Prevents interaction */
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto; /* Centers the tweet */
+    text-align: center;
+}
+
+.twitter-tweet {
+    width: 100% !important;
+}
+
+@media (max-width: 600px) {
+    .twitter-container {
+        max-width: 350px; /* Smaller on phones */
+    }
 }
