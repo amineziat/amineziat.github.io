@@ -84,7 +84,7 @@ body {
 
 .twitter-tweet {
     max-width: 100% !important;
-    transform: scale(0.85); /* Resize the tweet */
+    transform: scale(0.6); /* Resize the tweet */
     transform-origin: top left;
 }
 
