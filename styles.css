@@ -74,18 +74,14 @@ body {
 }
 
 .twitter-container {
-    width: 320px;  /* Adjust width */
+    width: 320px;
     display: flex;
-    justify-content: center;  /* Center horizontally */
-    align-items: center;  /* Center vertically */
-    margin: 0 auto;  /* Center it */
-    position: relative;
-    top: 150px;  /* Adjust this if needed */
-}
-
-.twitter-tweet {
-    max-width: 100% !important;
-    transform: scale(0.6); /* Resize the tweet */
-    transform-origin: top left;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    margin: 0 auto; /* Ensures centering */
+    position: absolute; /* Change to absolute to move freely */
+    left: 50%; /* Move to the center */
+    transform: translateX(-50%); /* Adjust to perfectly center */
+    top: 400px; /* Adjust this value as needed */
 }
 
