@@ -76,12 +76,12 @@ body {
 .twitter-container {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-    max-width: 400px;  /* Set a max width */
+    align-items: center;
+    width: 100%;
 }
 
 .twitter-tweet {
-    max-width: 400px;
-    width: 100%;
-    margin: 20px auto;
+    max-width: 350px !important; /* Controls tweet size */
+    width: 100% !important;
+    overflow: hidden;
 }
