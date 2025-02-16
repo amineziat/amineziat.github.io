@@ -48,6 +48,14 @@
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </div>
         
-    </div>
+    <script>
+    window.onload = function() {
+        let tweets = document.querySelectorAll(".twitter-tweet");
+        tweets.forEach(tweet => {
+            tweet.style.maxWidth = "350px";
+            tweet.style.overflow = "hidden";
+        });
+    };
+</script>
 </body>
 </html>
