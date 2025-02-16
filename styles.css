@@ -75,11 +75,10 @@ body {
 
 .twitter-container {
     position: absolute;
-    right: 20px;  /* Moves it to the right */
+    right: 100px;  /* Moves it to the right */
     top: 50%;
     transform: translateY(-50%);
     max-width: 300px; /* Adjust width */
-    opacity: 0.5; /* Makes it slightly transparent */
     z-index: -1; /* Moves it behind other elements */
     pointer-events: none; /* Prevents interaction */
 }
