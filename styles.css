@@ -75,7 +75,6 @@ body {
 
 .twitter-container {
     width: 320px;  /* Set the max width */
-    height: 420px; /* Increase height so tweet is not cut */
     overflow: hidden; /* Hide overflow if needed */
     display: flex;
     justify-content: center;
