@@ -30,20 +30,10 @@ body {
     max-width: 200px;
 }
 
-/* Positioning Container */
-.logo-social-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 100px; /* Change this to move up/down */
-    left: 50%;
-    transform: translateX(-50%);
-}
-
 /* Social Media Icons */
 .social-icons {
-    margin-top: 80px;
+    position: absolute;
+    top: 150px; /* Change this to move up/down */
     display: flex;
     gap: 15px;
 }
