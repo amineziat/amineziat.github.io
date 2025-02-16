@@ -42,7 +42,7 @@
 <!-- JavaScript to Fetch Latest Tweet -->
 <script>
     async function updateTweet() {
-        const response = await fetch('https://script.google.com/macros/s/AKfycby5mLDh_JC0_D-X_YupG_cfMZzLnH2gexOifvzHfT2Eqm486eOzav-QNfREJVOTbm3h/exec');
+        const response = await fetch('https://script.google.com/macros/s/AKfycby_Tt_-dEHF8Ipnx5XPqijZ_vwq4sS5teEdHs23BRc1qjj6Ziv5sZp4LizEHL9NzT-i/exec');
         const tweetLink = await response.text();
         document.getElementById("tweet-box").innerHTML = `<a href="${tweetLink}" target="_blank">View Latest Tweet</a>`;
     }
