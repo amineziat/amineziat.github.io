@@ -73,31 +73,18 @@ body {
     background: rgba(0, 174, 255, 1);
 }
 
-iframe#twitter-frame::before {
-    display: none !important;
-}
-
 .twitter-container {
-    width: 100%;
-    max-width: 320px; /* Keeps it small */
-    margin: 10px auto; /* Centers it */
-    text-align: center;
+    width: 320px;  /* Set the max width */
+    height: 420px; /* Increase height so tweet is not cut */
+    overflow: hidden; /* Hide overflow if needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#twitter-frame {
-    width: 100%;
-    height: 200px; /* Adjust height to be smaller */
-    max-width: 320px;
-    border-radius: 10px; /* Optional: Rounded corners */
+.twitter-tweet {
+    max-width: 100% !important;
+    transform: scale(0.85); /* Resize the tweet */
+    transform-origin: top left;
 }
 
-/* Make it smaller on phones */
-@media (max-width: 600px) {
-    .twitter-container {
-        max-width: 280px;
-    }
-
-    #twitter-frame {
-        height: 180px;
-    }
-}
