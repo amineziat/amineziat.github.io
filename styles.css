@@ -74,11 +74,13 @@ body {
 }
 
 .twitter-container {
-    width: 320px;  /* Set the max width */
-    overflow: hidden; /* Hide overflow if needed */
+    width: 320px;  /* Adjust width */
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center;  /* Center horizontally */
+    align-items: center;  /* Center vertically */
+    margin: 0 auto;  /* Center it */
+    position: relative;
+    top: 20px;  /* Adjust this if needed */
 }
 
 .twitter-tweet {
