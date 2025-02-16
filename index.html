@@ -36,32 +36,10 @@
             <a href="https://www.pixels.tips/players/660887166afcbf827f9393ef" target="_blank" class="btn">AMIN PIXELS ACCOUNT</a>
         </div>
 
-        <!-- Latest Tweet Section -->
-        <div id="latest-tweet"></div>
+        <div class="twitter-container">
+            <a class="twitter-timeline" href="https://twitter.com/pixelamin?ref_src=twsrc%5Etfw">Tweets by pixelamin</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
     </div>
-
-    <script>
-        async function fetchLatestTweet() {
-            try {
-                const username = "pixelamin"; // Change this to your Twitter username
-                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://nitter.net/${pixelamin}/rss`);
-                const data = await response.json();
-                
-                if (data.items && data.items.length > 0) {
-                    document.getElementById("latest-tweet").innerHTML = `
-                        <div class="tweet-box">
-                            <p>${data.items[0].title}</p>
-                            <a href="${data.items[0].link}" target="_blank">View on Twitter</a>
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                console.error("Error fetching tweet:", error);
-                document.getElementById("latest-tweet").innerHTML = "<p>Could not load tweet.</p>";
-            }
-        }
-
-        fetchLatestTweet();
-    </script>
 </body>
 </html>
