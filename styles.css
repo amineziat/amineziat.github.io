@@ -80,7 +80,7 @@ body {
     align-items: center;  /* Center vertically */
     margin: 0 auto;  /* Center it */
     position: relative;
-    top: 20px;  /* Adjust this if needed */
+    top: 150px;  /* Adjust this if needed */
 }
 
 .twitter-tweet {
