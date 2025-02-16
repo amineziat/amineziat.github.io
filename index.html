@@ -36,13 +36,18 @@
             <a href="https://www.pixels.tips/players/660887166afcbf827f9393ef" target="_blank" class="btn">AMIN PIXELS ACCOUNT</a>
         </div>
 
-        <!-- Twitter Post -->
-        <div class="twitter-container">
-        <blockquote class="twitter-tweet" data-theme="dark" id="twitter-frame">
-            <a href="https://twitter.com/pixelamin/status/1890376090339705024"></a>
-        </blockquote> 
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        </div>
+        <!-- This is where the tweet link will appear -->
+<div id="tweet-box">Loading latest tweet...</div>
+
+<!-- JavaScript to Fetch Latest Tweet -->
+<script>
+    async function updateTweet() {
+        const response = await fetch('https://script.google.com/macros/s/AKfycby5mLDh_JC0_D-X_YupG_cfMZzLnH2gexOifvzHfT2Eqm486eOzav-QNfREJVOTbm3h/exec');
+        const tweetLink = await response.text();
+        document.getElementById("tweet-box").innerHTML = `<a href="${tweetLink}" target="_blank">View Latest Tweet</a>`;
+    }
+    updateTweet();
+</script>
         
 </body>
 </html>
