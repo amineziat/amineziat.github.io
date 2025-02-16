@@ -52,15 +52,15 @@
             
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-            const data = await response.json(); // ✅ Parse JSON properly
+            const tweetLink = await response.text(); // ✅ Read as plain text
 
-            if (!data.tweetLink || !data.tweetLink.startsWith("http")) {
+            if (!tweetLink.startsWith("http")) {
                 throw new Error("Invalid tweet link received.");
             }
 
             // Update the tweet embed
             const twitterFrame = document.getElementById("twitter-frame");
-            twitterFrame.innerHTML = `<blockquote class="twitter-tweet" data-theme="dark"><a href="${data.tweetLink}"></a></blockquote>`;
+            twitterFrame.innerHTML = `<blockquote class="twitter-tweet" data-theme="dark"><a href="${tweetLink}"></a></blockquote>`;
 
             // Reload Twitter widgets
             setTimeout(() => {
