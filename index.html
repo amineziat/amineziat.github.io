@@ -50,18 +50,24 @@
         try {
             const response = await fetch('https://script.google.com/macros/s/AKfycbxZ-JjeYZgQeb5Ies9fB8NgSpz-lO0oz-kw1kNVUo90skfCpn0YsSJiOxdIgGHMQ7IS/exec');
 
-            if (!response.ok) throw new Error("Network response was not ok");
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-            const tweetLink = await response.text().trim(); // Get the tweet link and ensure it's clean
+            const tweetLink = await response.text().trim(); // Ensure clean text
 
-            // Update the blockquote with the new tweet link
+            if (!tweetLink.startsWith("http")) {
+                throw new Error("Invalid tweet link received.");
+            }
+
+            // Update the tweet embed
             const twitterFrame = document.getElementById("twitter-frame");
             twitterFrame.innerHTML = `<blockquote class="twitter-tweet" data-theme="dark"><a href="${tweetLink}"></a></blockquote>`;
 
-            // Wait for DOM update, then reload Twitter widgets
+            // Reload Twitter widgets
             setTimeout(() => {
                 if (window.twttr) {
                     window.twttr.widgets.load();
+                } else {
+                    console.warn("Twitter widget script not loaded.");
                 }
             }, 500);
 
