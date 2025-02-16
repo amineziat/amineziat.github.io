@@ -81,7 +81,7 @@ body {
 }
 
 .twitter-tweet {
-    width: 100% !important; /* Make sure it scales correctly */
-    max-width: 400px; /* Controls width */
+    max-width: 400px;
+    width: 100%;
+    margin: 20px auto;
 }
-
