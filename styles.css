@@ -50,7 +50,8 @@ body {
 
 /* Buttons */
 .buttons {
-    margin-top: 20px;
+    position: absolute;
+    top: 210px; /* Change this to move up/down */
     display: flex;
     flex-direction: column;
     gap: 15px;
