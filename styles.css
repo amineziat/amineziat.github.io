@@ -85,3 +85,9 @@ body {
     top: 400px; /* Adjust this value as needed */
 }
 
+/* Adjust for smaller screens */
+@media (max-width: 768px) { 
+    .twitter-container {
+        top: 500px; /* Move it lower so it doesn't cover the icons */
+    }
+}
