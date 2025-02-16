@@ -43,24 +43,19 @@
 <script>
     async function updateTweet() {
     try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycbyNIT1iO4NPM9oHDH49JAJH_KHxpbg3KmSyKX9XseWSCm3PgX8glhoxohaBBBi60p2B/exec');
+        const response = await fetch('https://script.google.com/macros/s/AKfycbxZ-JjeYZgQeb5Ies9fB8NgSpz-lO0oz-kw1kNVUo90skfCpn0YsSJiOxdIgGHMQ7IS/exec');
+        
+        if (!response.ok) throw new Error("Network response was not ok");
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+        const tweetLink = await response.text(); // If returning plain text
+        document.getElementById("tweet-box").innerHTML = `<a href="${tweetLink}" target="_blank">View Latest Tweet</a>`;
 
-        const tweetLink = await response.text().trim(); // Ensure clean text
-
-        if (tweetLink.startsWith("http")) {
-            document.getElementById("tweet-box").innerHTML = `<a href="${tweetLink}" target="_blank">View Latest Tweet</a>`;
-        } else {
-            document.getElementById("tweet-box").innerHTML = "Error: Invalid tweet link!";
-        }
     } catch (error) {
         console.error("Error fetching tweet:", error);
-        document.getElementById("tweet-box").innerHTML = "Failed to load tweet.";
+        document.getElementById("tweet-box").innerText = "Failed to load tweet.";
     }
 }
+
 updateTweet();
 </script>
         
