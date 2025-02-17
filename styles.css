@@ -32,11 +32,11 @@ body {
     width: 100%;
 }
 
-/* ✅ Apply fade-in effect ONLY to content, not the logo */
 .fade-in {
     opacity: 0;
     transform: translateY(-10px);
     animation: fadeIn 0.6s ease-out forwards;
+    animation-delay: 0.2s; /* Small delay to make it smoother */
 }
 
 @keyframes fadeIn {
