@@ -77,7 +77,7 @@
 
             // ✅ STEP 4: Fetch the full tweet (only if needed)
             console.log("🔄 New tweet detected, fetching...");
-            const tweetResponse = await fetch(`https://script.google.com/macros/s/AKfycbxllOq-Y8Q8-GaJM2YgGwmdpbLIAjLsE7udHuxe6oI33t7WJO9U3uoINgx7u-6F_kQJkQ/exec?nocache=${Date.now()}`);
+            const tweetResponse = await fetch(`https://script.google.com/macros/s/AKfycbwif5B5FPsM_CBvmsGsjj9Tj4vJ0uq8EoG3r0bkSSDuMSmGeRBfLuOPok0GjuQfJy3EnQ/exec?nocache=${Date.now()}`);
             if (!tweetResponse.ok) throw new Error(`HTTP error! Status: ${tweetResponse.status}`);
 
             const tweetData = await tweetResponse.json();
