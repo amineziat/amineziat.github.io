@@ -60,7 +60,7 @@
             
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-            const tweetLink = await response.text().trim();
+            const tweetLink = await response.text(); // ✅ Read as plain text
 
             if (!tweetLink.startsWith("http")) {
                 throw new Error("Invalid tweet link received.");
