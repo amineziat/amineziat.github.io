@@ -69,14 +69,10 @@
             const twitterFrame = document.getElementById("twitter-frame");
             twitterFrame.innerHTML = `<blockquote class="twitter-tweet" data-theme="dark"><a href="${tweetLink}"></a></blockquote>`;
 
-            // Reload Twitter widgets
-            setTimeout(() => {
-                if (window.twttr) {
-                    window.twttr.widgets.load();
-                } else {
-                    console.warn("Twitter widget script not loaded.");
-                }
-            }, 500);
+            // ✅ Reload Twitter embed
+            if (typeof twttr !== "undefined") {
+                twttr.widgets.load();
+            }
 
         } catch (error) {
             console.error("Error fetching tweet:", error);
