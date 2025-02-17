@@ -129,12 +129,12 @@
 </script>
 
 <script type="module">
-  // Import the functions you need from the SDKs you need
+  // Import Firebase SDKs
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+  import { getDatabase } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
 
-  // Your web app's Firebase configuration
+  // 🔥 Your Firebase Config
   const firebaseConfig = {
     apiKey: "AIzaSyDc2ygPpe5pLn5MK7goiAK2zr74FjRtSjQ",
     authDomain: "aminziat.firebaseapp.com",
@@ -145,8 +145,32 @@
     appId: "1:747649960112:web:68d68563a1b836c6a21375"
   };
 
-  // Initialize Firebase
+  // ✅ Initialize Firebase
   const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const auth = getAuth();
+
+  // ✅ Google Sign-In Function
+  function signIn() {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider).then((result) => {
+      console.log("✅ Logged in as:", result.user.displayName);
+    }).catch((error) => {
+      console.error("❌ Login failed:", error);
+    });
+  }
+
+  // ✅ Check If User is Logged In
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("🔹 Logged in as:", user.displayName, "| Email Verified:", user.emailVerified);
+    } else {
+      console.log("🔻 No user signed in.");
+    }
+  });
+
+  // 👉 Attach sign-in function to a button
+  window.signIn = signIn;
 </script>
     
 </body>
