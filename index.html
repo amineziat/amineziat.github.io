@@ -19,6 +19,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <!-- Load Twitter Widgets Properly -->
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </head>
 <body>
     <div class="container">
@@ -37,72 +40,86 @@
         </div>
 
         <!-- Twitter Post -->
-<div class="twitter-container">
-    <blockquote class="twitter-tweet" data-theme="dark" id="twitter-frame">
-        ⏳ Loading latest tweet...
-        <a href=""></a> <!-- Will be updated dynamically -->
-    </blockquote> 
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-</div>
+        <div class="twitter-container">
+            <blockquote class="twitter-tweet" data-theme="dark" id="twitter-frame">
+                ⏳ Loading latest tweet...
+                <a href=""></a> <!-- Will be updated dynamically -->
+            </blockquote>
+        </div>
+    </div>
 
-<!-- JavaScript to Fetch Latest Tweet -->
-<script> 
-    async function updateTweet() {
-        try {
-            console.log("Checking timestamp before fetching...");
+    <!-- JavaScript to Fetch Latest Tweet -->
+    <script> 
+        async function updateTweet() {
+            try {
+                console.log("🚀 Checking timestamp before fetching...");
 
-            const cachedTweet = localStorage.getItem("latestTweet");
-            const cachedTimestamp = localStorage.getItem("lastTweetUpdate");
+                const twitterFrame = document.getElementById("twitter-frame");
+                if (!twitterFrame) {
+                    console.error("❌ Error: #twitter-frame not found!");
+                    return;
+                }
 
-            if (cachedTweet) {
-                document.getElementById("twitter-frame").innerHTML = cachedTweet;
-                console.log("✅ Cached tweet loaded instantly.");
+                const cachedTweet = localStorage.getItem("latestTweet");
+                const cachedTimestamp = localStorage.getItem("lastTweetUpdate");
+
+                if (cachedTweet) {
+                    twitterFrame.innerHTML = cachedTweet;
+                    console.log("✅ Loaded cached tweet.");
+                }
+
+                const scriptURL = "https://script.google.com/macros/s/AKfycbwif5B5FPsM_CBvmsGsjj9Tj4vJ0uq8EoG3r0bkSSDuMSmGeRBfLuOPok0GjuQfJy3EnQ/exec"; // UPDATE THIS
+
+                // Fetch timestamp first
+                const timestampResponse = await fetch(`${scriptURL}?timestampOnly=true&nocache=${Date.now()}`);
+                if (!timestampResponse.ok) throw new Error("Failed to fetch timestamp");
+
+                const timestampData = await timestampResponse.json();
+                const latestTimestamp = timestampData.lastUpdated;
+                console.log("⏳ Latest timestamp:", latestTimestamp);
+
+                if (cachedTimestamp === latestTimestamp) {
+                    console.log("⏩ Tweet is the same, skipping fetch.");
+                    return;
+                }
+
+                console.log("🔄 New tweet detected, fetching...");
+                const tweetResponse = await fetch(`${scriptURL}?nocache=${Date.now()}`);
+                if (!tweetResponse.ok) throw new Error("Failed to fetch tweet");
+
+                const tweetData = await tweetResponse.json();
+                const tweetLink = tweetData.tweetLink;
+
+                if (!tweetLink.startsWith("http")) throw new Error("Invalid tweet link received.");
+
+                console.log("🔄 New tweet received:", tweetLink);
+                const newTweet = `<blockquote class="twitter-tweet" data-theme="dark"><a href="${tweetLink}"></a></blockquote>`;
+                twitterFrame.innerHTML = newTweet;
+
+                localStorage.setItem("latestTweet", newTweet);
+                localStorage.setItem("lastTweetUpdate", latestTimestamp);
+
+                // Wait for Twitter's script to be ready before loading widgets
+                setTimeout(() => {
+                    if (window.twttr && typeof twttr.widgets !== "undefined") {
+                        twttr.widgets.load();
+                        console.log("✅ Twitter widgets loaded.");
+                    } else {
+                        console.warn("⚠️ Twitter widgets not found.");
+                    }
+                }, 500);
+
+            } catch (error) {
+                console.error("❌ Error fetching tweet:", error);
+                const twitterFrame = document.getElementById("twitter-frame");
+                if (twitterFrame) {
+                    twitterFrame.innerText = "⚠️ Failed to load tweet.";
+                }
             }
-
-            const scriptURL = "https://script.google.com/macros/s/AKfycbwif5B5FPsM_CBvmsGsjj9Tj4vJ0uq8EoG3r0bkSSDuMSmGeRBfLuOPok0GjuQfJy3EnQ/exec"; // UPDATE THIS
-
-            // Fetch timestamp first
-            const timestampResponse = await fetch(`${scriptURL}?timestampOnly=true&nocache=${Date.now()}`);
-            if (!timestampResponse.ok) throw new Error("Failed to fetch timestamp");
-
-            const timestampData = await timestampResponse.json();
-            const latestTimestamp = timestampData.lastUpdated;
-
-            console.log("⏳ Latest timestamp:", latestTimestamp);
-
-            if (cachedTimestamp === latestTimestamp) {
-                console.log("⏩ Tweet is the same, skipping fetch.");
-                return;
-            }
-
-            console.log("🔄 New tweet detected, fetching...");
-            const tweetResponse = await fetch(`${scriptURL}?nocache=${Date.now()}`);
-            if (!tweetResponse.ok) throw new Error("Failed to fetch tweet");
-
-            const tweetData = await tweetResponse.json();
-            const tweetLink = tweetData.tweetLink;
-
-            if (!tweetLink.startsWith("http")) throw new Error("Invalid tweet link received.");
-
-            console.log("🔄 New tweet received:", tweetLink);
-            const newTweet = `<blockquote class="twitter-tweet" data-theme="dark"><a href="${tweetLink}"></a></blockquote>`;
-            document.getElementById("twitter-frame").innerHTML = newTweet;
-
-            localStorage.setItem("latestTweet", newTweet);
-            localStorage.setItem("lastTweetUpdate", latestTimestamp);
-
-            if (typeof twttr !== "undefined") {
-                twttr.widgets.load();
-            }
-
-        } catch (error) {
-            console.error("Error fetching tweet:", error);
-            document.getElementById("twitter-frame").innerText = "Failed to load tweet.";
         }
-    }
 
-    updateTweet();
-</script>
-
+        // Run the function when the page is fully loaded
+        document.addEventListener("DOMContentLoaded", updateTweet);
+    </script>
 </body>
 </html>
