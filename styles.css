@@ -95,7 +95,6 @@ body {
 
 /* Twitter Widget Container */
 .twitter-container {
-    width: 320px;
     display: flex;
     justify-content: center;
     align-items: center;
