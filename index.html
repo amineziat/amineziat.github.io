@@ -49,54 +49,37 @@
 <script>
     async function updateTweet() {
         try {
-            console.log("🚀 Checking if we need a new tweet...");
-
-            const lastFetchTime = localStorage.getItem("lastFetchTime");
-            const now = Date.now();
-            const cacheDuration = 2 * 60 * 1000; // 2 minutes
-
-            // Load cached tweet instantly
+            // 🔥 Load cached tweet instantly (but don’t use it forever)
             const cachedTweet = localStorage.getItem("latestTweet");
             if (cachedTweet) {
                 document.getElementById("twitter-frame").innerHTML = cachedTweet;
             }
 
-            // 🕒 Check if we need to fetch a new tweet
-            if (lastFetchTime && now - lastFetchTime < cacheDuration) {
-                console.log("✅ Using cached tweet (still fresh)");
-                return;
-            }
-
-            console.log("⏳ Fetching latest tweet from Google Script...");
-
-            // Fetch the latest tweet
-            const response = await fetch(`https://script.google.com/macros/s/AKfycbxllOq-Y8Q8-GaJM2YgGwmdpbLIAjLsE7udHuxe6oI33t7WJO9U3uoINgx7u-6F_kQJkQ/exec?nocache=${now}`);
-
+            // 🔄 Fetch the latest tweet, forcing a fresh request (bypass cache)
+            const response = await fetch(`https://script.google.com/macros/s/AKfycbxllOq-Y8Q8-GaJM2YgGwmdpbLIAjLsE7udHuxe6oI33t7WJO9U3uoINgx7u-6F_kQJkQ/exec?nocache=${new Date().getTime()}`);
+            
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
             const tweetLink = await response.text();
-            console.log("🔄 New tweet received:", tweetLink);
 
             if (!tweetLink.startsWith("http")) {
-                throw new Error("❌ Invalid tweet link received.");
+                throw new Error("Invalid tweet link received.");
             }
 
-            // Update tweet in the UI
+            // ✅ Update tweet embed
             const newTweet = `<blockquote class="twitter-tweet" data-theme="dark"><a href="${tweetLink}"></a></blockquote>`;
             document.getElementById("twitter-frame").innerHTML = newTweet;
 
-            // Save to cache
+            // ✅ Save to cache (so it loads instantly next time)
             localStorage.setItem("latestTweet", newTweet);
-            localStorage.setItem("latestTweetLink", tweetLink);
-            localStorage.setItem("lastFetchTime", now);
 
-            // Reload Twitter embed
+            // ✅ Reload Twitter embed
             if (typeof twttr !== "undefined") {
                 twttr.widgets.load();
             }
 
         } catch (error) {
-            console.error("❌ Error fetching tweet:", error);
+            console.error("Error fetching tweet:", error);
             document.getElementById("twitter-frame").innerText = "Failed to load tweet.";
         }
     }
