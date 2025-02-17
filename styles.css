@@ -89,6 +89,7 @@ body {
 
 .btn:hover {
     background: rgba(0, 174, 255, 1);
+    transform: scale(1.05);
 }
 
 /* Twitter Widget Container */
