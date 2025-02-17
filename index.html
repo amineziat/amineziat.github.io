@@ -49,19 +49,10 @@
 <script>
     async function updateTweet() {
         try {
-            // 🔥 Check if the tweet has changed
+            // 🔥 Load cached tweet instantly (but don’t use it forever)
             const cachedTweet = localStorage.getItem("latestTweet");
-            if (cachedTweet && cachedTweet.includes(tweetLink)) {
-                console.log("Tweet is the same, using cache.");
+            if (cachedTweet) {
                 document.getElementById("twitter-frame").innerHTML = cachedTweet;
-                return;
-            }
-
-            // ✅ If tweet changed, update everything
-            console.log("New tweet detected, updating cache.");
-            const newTweet = `<blockquote class="twitter-tweet" data-theme="dark"><a href="${tweetLink}"></a></blockquote>`;
-            document.getElementById("twitter-frame").innerHTML = newTweet;
-            
             }
 
             // 🔄 Fetch the latest tweet, forcing a fresh request (bypass cache)
