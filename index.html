@@ -67,12 +67,14 @@
                 throw new Error("Invalid tweet link received.");
             }
 
-            // Get cached timestamp
+            // Get cached tweet & timestamp
+            const cachedTweet = localStorage.getItem("latestTweet");
             const cachedTimestamp = localStorage.getItem("lastTweetUpdate");
 
-            // ✅ If timestamp is the same, use cache (no need to update)
+            // ✅ If timestamp is the same, USE THE CACHED TWEET!
             if (cachedTimestamp === lastUpdated) {
                 console.log("Tweet is the same, using cache.");
+                document.getElementById("twitter-frame").innerHTML = cachedTweet; // 🔥 FIXED: Now it actually sets the tweet!
                 return;
             }
 
