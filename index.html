@@ -63,10 +63,16 @@
                 throw new Error("Invalid tweet link received.");
             }
 
-            // Check if it's a new tweet
+            // Check if the tweet has changed
             const cachedTweet = localStorage.getItem("latestTweetLink");
             if (cachedTweet === tweetLink) {
                 console.log("Tweet is the same, using cache.");
+                // ⏩ STILL FORCE THE EMBED TO RELOAD
+                if (typeof twttr !== "undefined") {
+                    document.getElementById("twitter-frame").innerHTML = 
+                        `<blockquote class="twitter-tweet" data-theme="dark"><a href="${tweetLink}"></a></blockquote>`;
+                    twttr.widgets.load();
+                }
                 return;
             }
 
@@ -74,10 +80,10 @@
             const newTweet = `<blockquote class="twitter-tweet" data-theme="dark"><a href="${tweetLink}"></a></blockquote>`;
             document.getElementById("twitter-frame").innerHTML = newTweet;
 
-            // Save new tweet link to cache (so we know if it changes)
+            // Save new tweet link to cache
             localStorage.setItem("latestTweetLink", tweetLink);
 
-            // Reload Twitter embed
+            // 🚀 Force reload of Twitter embed
             if (typeof twttr !== "undefined") {
                 twttr.widgets.load();
             }
