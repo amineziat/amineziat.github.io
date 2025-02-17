@@ -61,7 +61,7 @@
             }
 
             // ✅ STEP 2: Fetch only the timestamp first (much faster)
-            const timestampResponse = await fetch(`https://script.google.com/macros/s/AKfycbyNXexOO3Mz3y2wIJx-XWmNwuWLCVl8rMVOd_e3UHuNLWwgl4lSTIBDR3MAK-esI82VBg/exec?timestampOnly=true&nocache=${Date.now()}`);
+            const timestampResponse = await fetch(`https://script.google.com/macros/s/AKfycbwif5B5FPsM_CBvmsGsjj9Tj4vJ0uq8EoG3r0bkSSDuMSmGeRBfLuOPok0GjuQfJy3EnQ/exec?timestampOnly=true&nocache=${Date.now()}`);
             if (!timestampResponse.ok) throw new Error(`HTTP error! Status: ${timestampResponse.status}`);
 
             const timestampData = await timestampResponse.json();
