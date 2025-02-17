@@ -49,14 +49,7 @@
 <script>
     async function updateTweet() {
         try {
-            // 🔥 Load cached tweet instantly (but don’t use it forever)
-            const cachedTweet = localStorage.getItem("latestTweet");
-            if (cachedTweet) {
-                document.getElementById("twitter-frame").innerHTML = cachedTweet;
-            }
-
-            // 🔄 Fetch the latest tweet, forcing a fresh request (bypass cache)
-            const response = await fetch(`https://script.google.com/macros/s/AKfycbxllOq-Y8Q8-GaJM2YgGwmdpbLIAjLsE7udHuxe6oI33t7WJO9U3uoINgx7u-6F_kQJkQ/exec?nocache=${new Date().getTime()}`);
+            const response = await fetch(`https://script.google.com/macros/s/AKfycbxllOq-Y8Q8-GaJM2YgGwmdpbLIAjLsE7udHuxe6oI33t7WJO9U3uoINgx7u-6F_kQJkQ/exec?nocache=${Math.random()}`);
             
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
@@ -66,11 +59,20 @@
                 throw new Error("Invalid tweet link received.");
             }
 
-            // ✅ Update tweet embed
+            // 🔥 Check if the tweet has changed
+            const cachedTweet = localStorage.getItem("latestTweet");
+            if (cachedTweet && cachedTweet.includes(tweetLink)) {
+                console.log("Tweet is the same, using cache.");
+                document.getElementById("twitter-frame").innerHTML = cachedTweet;
+                return;
+            }
+
+            // ✅ If tweet changed, update everything
+            console.log("New tweet detected, updating cache.");
             const newTweet = `<blockquote class="twitter-tweet" data-theme="dark"><a href="${tweetLink}"></a></blockquote>`;
             document.getElementById("twitter-frame").innerHTML = newTweet;
 
-            // ✅ Save to cache (so it loads instantly next time)
+            // ✅ Save new tweet to cache
             localStorage.setItem("latestTweet", newTweet);
 
             // ✅ Reload Twitter embed
