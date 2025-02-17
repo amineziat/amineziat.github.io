@@ -14,11 +14,28 @@ body {
     flex-direction: column;
 }
 
+/* ✅ Keep the logo fixed in place */
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 200px;
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.4));
+}
+
+/* Container without fade effect */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+}
+
+/* ✅ Apply fade-in effect ONLY to content, not the logo */
+.fade-in {
+    opacity: 0;
+    transform: translateY(-10px);
     animation: fadeIn 0.6s ease-out forwards;
 }
 
@@ -29,37 +46,28 @@ body {
     }
 }
 
-/* Logo */
-.logo {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: 200px;
-}
-
 /* Social Media Icons */
 .social-icons {
     position: absolute;
-    top: 150px; /* Change this to move up/down */
+    top: 150px;
     display: flex;
     gap: 15px;
 }
 
 .social-icons a {
-    font-size: 50px; /* Increased size */
-    color: black !important; /* Force black color */
+    font-size: 50px;
+    color: black !important;
     transition: transform 0.2s ease-in-out;
 }
 
-.social-icons img:hover {
+.social-icons a:hover {
     transform: scale(1.1);
 }
 
 /* Buttons */
 .buttons {
     position: absolute;
-    top: 210px; /* to move up/down */
+    top: 210px;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -83,14 +91,15 @@ body {
     background: rgba(0, 174, 255, 1);
 }
 
+/* Twitter Widget Container */
 .twitter-container {
     width: 320px;
     display: flex;
-    justify-content: center; /* Centers horizontally */
-    align-items: center; /* Centers vertically */
-    margin: 0 auto; /* Ensures centering */
-    position: absolute; /* Change to absolute to move freely */
-    left: 50%; /* Move to the center */
-    transform: translateX(-50%); /* Adjust to perfectly center */
-    top: 300px; /* Change this to move up/down */
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 300px;
 }
