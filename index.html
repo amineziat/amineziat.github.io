@@ -129,10 +129,9 @@
 </script>
 
 <script type="module">
-  // ✅ Import Firebase modules
+  // ✅ Import Firebase modules (ONLY the ones we need)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-  import { getDatabase } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
-  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+  import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
   // ✅ Firebase Config
   const firebaseConfig = {
@@ -148,20 +147,9 @@
   // ✅ Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
-  const auth = getAuth(app);
 
-  // ✅ Function to Check If User is Logged In
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log("✅ Logged in as:", user.displayName);
-      console.log("🔹 Email Verified:", user.emailVerified);
-    } else {
-      console.log("❌ No user is logged in.");
-    }
-  });
-
-  // ✅ Make auth available globally (for console testing)
-  window.auth = auth;
+  // ✅ Make db available globally
+  window.db = db;
 </script>
     
 </body>
