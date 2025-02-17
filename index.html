@@ -49,18 +49,18 @@
 <script>
     async function updateTweet() {
         try {
-            // 🔥 Load cached tweet instantly
+            // 🔥 Load cached tweet instantly (but don’t use it forever)
             const cachedTweet = localStorage.getItem("latestTweet");
             if (cachedTweet) {
                 document.getElementById("twitter-frame").innerHTML = cachedTweet;
             }
 
-            // 🔄 Fetch the latest tweet from Google Apps Script
-            const response = await fetch('https://script.google.com/macros/s/AKfycbxllOq-Y8Q8-GaJM2YgGwmdpbLIAjLsE7udHuxe6oI33t7WJO9U3uoINgx7u-6F_kQJkQ/exec');
+            // 🔄 Fetch the latest tweet, forcing a fresh request (bypass cache)
+            const response = await fetch(`https://script.google.com/macros/s/AKfycbxllOq-Y8Q8-GaJM2YgGwmdpbLIAjLsE7udHuxe6oI33t7WJO9U3uoINgx7u-6F_kQJkQ/exec?nocache=${new Date().getTime()}`);
             
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-            const tweetLink = await response.text(); // ✅ Read as plain text
+            const tweetLink = await response.text();
 
             if (!tweetLink.startsWith("http")) {
                 throw new Error("Invalid tweet link received.");
