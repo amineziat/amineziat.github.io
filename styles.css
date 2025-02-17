@@ -14,7 +14,7 @@ body {
     align-items: center;
     flex-direction: column;
     font-family: "Press Start 2P", serif;
-    transition: background 0.3s ease-in-out; /* Smooth background transition */
+    transition: background 0.3s ease-in-out;
 }
 
 /* Fade-in effect when loading */
@@ -35,10 +35,10 @@ body {
     }
 }
 
-/* Logo */
+/* ✅ FIXED LOGO POSITION */
 .logo {
     position: absolute;
-    top: 20px;
+    top: 20px; /* Move back to original position */
     left: 50%;
     transform: translateX(-50%);
     max-width: 200px;
@@ -48,26 +48,27 @@ body {
 /* Title */
 h1 {
     color: white;
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7); /* Better readability */
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+    text-align: center;
 }
 
 /* Social Media Icons */
 .social-icons {
     position: absolute;
-    top: 150px; /* Adjust for positioning */
+    top: 150px;
     display: flex;
     gap: 15px;
 }
 
 .social-icons a {
     font-size: 50px;
-    color: black !important; /* Force black color */
+    color: black !important;
     transition: transform 0.2s ease-in-out, color 0.3s;
 }
 
 .social-icons a:hover {
     transform: scale(1.1);
-    color: #00aaff !important; /* Slight blue tint on hover */
+    color: #00aaff !important;
 }
 
 /* Buttons */
@@ -113,47 +114,4 @@ h1 {
     padding: 10px;
     background: rgba(0, 0, 0, 0.6);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* Light/Dark Mode Toggle */
-.toggle-theme {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    padding: 10px 15px;
-    border-radius: 20px;
-    font-size: 12px;
-    color: white;
-    transition: background 0.3s ease-in-out;
-}
-
-.toggle-theme:hover {
-    background: rgba(255, 255, 255, 0.4);
-}
-
-/* Dark Mode */
-body.dark-mode {
-    background: url('images/dark-background.webp') no-repeat center center fixed;
-    background-size: cover;
-    color: white;
-}
-
-body.dark-mode .btn {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-}
-
-body.dark-mode .btn:hover {
-    background: rgba(255, 255, 255, 0.4);
-}
-
-body.dark-mode .social-icons a {
-    color: white !important;
-}
-
-body.dark-mode .twitter-container {
-    background: rgba(255, 255, 255, 0.1);
 }
