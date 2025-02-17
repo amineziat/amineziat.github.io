@@ -49,42 +49,51 @@
 <script> 
     async function updateTweet() {
         try {
-            console.log("Checking latest tweet...");
+            console.log("Checking timestamp before fetching...");
 
-            // 🔄 Fetch the latest tweet (force fresh request)
-            const response = await fetch(`https://script.google.com/macros/s/AKfycbyNXexOO3Mz3y2wIJx-XWmNwuWLCVl8rMVOd_e3UHuNLWwgl4lSTIBDR3MAK-esI82VBg/exec?nocache=${new Date().getTime()}`);
-            
-            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            // ✅ STEP 1: Instantly load the cached tweet
+            const cachedTweet = localStorage.getItem("latestTweet");
+            const cachedTimestamp = localStorage.getItem("lastTweetUpdate");
 
-            const data = await response.json();
-            const tweetLink = data.tweetLink;
-            const lastUpdated = data.lastUpdated;
+            if (cachedTweet) {
+                document.getElementById("twitter-frame").innerHTML = cachedTweet;
+                console.log("✅ Cached tweet loaded instantly.");
+            }
 
-            console.log("Received tweet:", tweetLink);
-            console.log("Received timestamp:", lastUpdated);
+            // ✅ STEP 2: Fetch only the timestamp first (much faster)
+            const timestampResponse = await fetch(`https://script.google.com/macros/s/AKfycbyNXexOO3Mz3y2wIJx-XWmNwuWLCVl8rMVOd_e3UHuNLWwgl4lSTIBDR3MAK-esI82VBg/exec?timestampOnly=true&nocache=${Date.now()}`);
+            if (!timestampResponse.ok) throw new Error(`HTTP error! Status: ${timestampResponse.status}`);
+
+            const timestampData = await timestampResponse.json();
+            const latestTimestamp = timestampData.lastUpdated;
+
+            console.log("⏳ Latest timestamp:", latestTimestamp);
+
+            // ✅ STEP 3: If timestamp hasn’t changed, STOP HERE (don’t fetch tweet)
+            if (cachedTimestamp === latestTimestamp) {
+                console.log("⏩ Tweet is the same, skipping fetch.");
+                return;
+            }
+
+            // ✅ STEP 4: Fetch the full tweet (only if needed)
+            console.log("🔄 New tweet detected, fetching...");
+            const tweetResponse = await fetch(`https://script.google.com/macros/s/AKfycbxllOq-Y8Q8-GaJM2YgGwmdpbLIAjLsE7udHuxe6oI33t7WJO9U3uoINgx7u-6F_kQJkQ/exec?nocache=${Date.now()}`);
+            if (!tweetResponse.ok) throw new Error(`HTTP error! Status: ${tweetResponse.status}`);
+
+            const tweetData = await tweetResponse.json();
+            const tweetLink = tweetData.tweetLink;
 
             if (!tweetLink.startsWith("http")) {
                 throw new Error("Invalid tweet link received.");
             }
 
-            // Get cached tweet & timestamp
-            const cachedTweet = localStorage.getItem("latestTweet");
-            const cachedTimestamp = localStorage.getItem("lastTweetUpdate");
-
-            // ✅ If timestamp is the same, USE THE CACHED TWEET!
-            if (cachedTimestamp === lastUpdated) {
-                console.log("Tweet is the same, using cache.");
-                document.getElementById("twitter-frame").innerHTML = cachedTweet; // 🔥 FIXED: Now it actually sets the tweet!
-                return;
-            }
-
-            console.log("New tweet detected, updating UI.");
+            console.log("🔄 New tweet received:", tweetLink);
             const newTweet = `<blockquote class="twitter-tweet" data-theme="dark"><a href="${tweetLink}"></a></blockquote>`;
             document.getElementById("twitter-frame").innerHTML = newTweet;
 
-            // ✅ Save new tweet and timestamp to cache
+            // ✅ STEP 5: Save new tweet & timestamp to cache
             localStorage.setItem("latestTweet", newTweet);
-            localStorage.setItem("lastTweetUpdate", lastUpdated);
+            localStorage.setItem("lastTweetUpdate", latestTimestamp);
 
             // ✅ Reload Twitter embed
             if (typeof twttr !== "undefined") {
