@@ -106,21 +106,23 @@
     const imageInput = document.getElementById('imageInput');
     const imagePreview = document.getElementById('imagePreview');
 
-    imageInput.addEventListener('change', () => {
-        const file = imageInput.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                imagePreview.src = e.target.result;
-                imagePreview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        } else {
-            imagePreview.src = '';
-            imagePreview.style.display = 'none';
-            alert('Please upload a valid image file.');
-        }
-    });
+    // Image Preview & Base64 Conversion
+imageInput.addEventListener('change', () => {
+    const file = imageInput.files[0];
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const base64Image = e.target.result;
+            imagePreview.src = base64Image;
+            imagePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    } else {
+        imagePreview.src = '';
+        imagePreview.style.display = 'none';
+        alert('Please upload a valid image file.');
+    }
+});
 
     // Save Article to localStorage
     function saveArticle() {
