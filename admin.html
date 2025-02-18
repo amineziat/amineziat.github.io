@@ -3,197 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Write an Article</title>
+    <title>Admin Page</title>
 
-    <!-- Quill.js CSS -->
+    <!-- Quill.js for Rich Text Editor -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
 
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f3f3f3;
-        }
-        .admin-container {
-            margin-top: 40px;
-            width: 600px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .image-preview {
-            max-width: 100%;
-            height: auto;
-            margin: 15px 0;
-            display: none;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-        }
-        #editor {
-            height: 300px;
-        }
-        button {
-            background-color: #007BFF;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1em;
-            margin-top: 15px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #editor-container { height: 200px; }
+        button { margin-top: 10px; padding: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="admin-container">
-    <h2>🛠️ Admin Panel - Write an Article</h2>
+    <h1>Admin Page</h1>
+    
+    <label>Title:</label>
+    <input type="text" id="titleInput" placeholder="Enter title" />
 
-    <!-- Title Input -->
-    <input type="text" id="title" placeholder="Article Title" />
+    <div id="editor-container"></div>
 
-    <!-- Description Input -->
-    <textarea id="description" placeholder="Game Description"></textarea>
+    <button id="saveArticleBtn">Save Article</button>
 
-    <!-- Image Upload & Preview -->
-    <input type="file" id="imageInput" accept="image/*" />
-    <img id="imagePreview" class="image-preview" alt="Image Preview" />
+    <script>
+        // ✅ Firebase Configuration
+        const firebaseConfig = {
+  apiKey: "AIzaSyAQW0cRH0ojOuGJHlKga7k0QMUoAS2uVAM",
+  authDomain: "gamearticles-107b8.firebaseapp.com",
+  databaseURL: "https://gamearticles-107b8-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "gamearticles-107b8",
+  storageBucket: "gamearticles-107b8.firebasestorage.app",
+  messagingSenderId: "138545072231",
+  appId: "1:138545072231:web:9f273d8ee3db3d0dbd6cc2"
+};
 
-    <!-- Quill.js Text Editor -->
-    <div id="editor"></div>
+        // ✅ Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
 
-    <button>💾 Save Article</button>
-</div>
+        // ✅ Debugging Firebase Connection
+        console.log("🔥 Firebase Initialized:", firebase.apps.length > 0);
+        console.log("🔗 Database Object:", db);
 
-<!-- Quill.js JS -->
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        // ✅ Initialize Quill Editor
+        const quill = new Quill('#editor-container', {
+            theme: 'snow'
+        });
 
-<script>
-    // Initialize Quill editor
-    const quill = new Quill('#editor', {
-        theme: 'snow',
-        placeholder: 'Write your article content here...',
-        modules: {
-            toolbar: [
-                [{ header: [1, 2, 3, false] }],
-                ['bold', 'italic', 'underline', 'strike'],
-                [{ list: 'ordered' }, { list: 'bullet' }],
-                ['link', 'image', 'code-block'],
-                ['clean']
-            ]
-        }
-    });
+        // ✅ Function to Save Article to Firebase
+        const saveArticle = () => {
+            const title = document.getElementById("titleInput").value.trim();
+            const content = quill.root.innerHTML;
 
-    // Image Preview
-    const imageInput = document.getElementById('imageInput');
-    const imagePreview = document.getElementById('imagePreview');
+            if (!title || !content) {
+                alert("❌ Title and content cannot be empty!");
+                return;
+            }
 
-    imageInput.addEventListener('change', () => {
-        const file = imageInput.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                imagePreview.src = e.target.result;
-                imagePreview.style.display = 'block';
+            const article = {
+                title: title,
+                content: content,
+                date: new Date().toISOString()
             };
-            reader.readAsDataURL(file);
-        } else {
-            imagePreview.src = '';
-            imagePreview.style.display = 'none';
-            alert('Please upload a valid image file.');
-        }
-    });
-</script>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
-
-<script>
-    // Initialize Firebase
-    const firebaseConfig = {
-        apiKey: "AIzaSyAQW0cRH0ojOuGJHlKga7k0QMUoAS2uVAM", // Replace with your actual API key
-        authDomain: "gamearticles-107b8.firebaseapp.com",
-        databaseURL: "https://gamearticles-107b8-default-rtdb.europe-west1.firebasedatabase.app/",
-        projectId: "gamearticles-107b8",
-        storageBucket: "gamearticles-107b8.appspot.com",
-        messagingSenderId: "138545072231",
-        appId: "1:138545072231:web:9f273d8ee3db3d0dbd6cc2"
-    };
-    firebase.initializeApp(firebaseConfig);
-
-    let db;
-    document.addEventListener("DOMContentLoaded", function() {
-        db = firebase.database();
-        console.log("🔥 Firebase Database Ready!");
-
-        // Attach the event listener AFTER db is initialized
-        const saveButton = document.querySelector('button');
-        saveButton.addEventListener('click', saveArticle);
-    });
-
-    function saveArticle() {
-        if (!db) {
-            console.error("🔥 Database is not initialized yet!");
-            alert('An error occurred. Please try again later.');
-            return;
-        }
-
-        const title = document.getElementById('title').value;
-        const description = document.getElementById('description').value;
-        const image = document.getElementById('imagePreview').src;
-        const content = quill.root.innerHTML;
-
-        if (!title || !description || !content || image === '') {
-            alert('⚠️ Please fill in all fields and upload an image!');
-            return;
-        }
-
-        const article = {
-            title,
-            description,
-            image,
-            content,
-            createdAt: new Date().toISOString()
+            db.ref('articles').push(article)
+                .then(() => {
+                    alert("✅ Article saved successfully!");
+                    document.getElementById("titleInput").value = "";
+                    quill.root.innerHTML = "";
+                })
+                .catch(error => {
+                    console.error("❌ Firebase Error:", error);
+                });
         };
 
-        db.ref('articles').push(article)
-            .then(() => {
-                alert('✅ Article saved successfully!');
-                // Reset fields
-                document.getElementById('title').value = '';
-                document.getElementById('description').value = '';
-                document.getElementById('imagePreview').src = '';
-                document.getElementById('imagePreview').style.display = 'none';
-                quill.root.innerHTML = '';
-            })
-            .catch((error) => {
-                console.error('🔥 Firebase Error:', error);
-                alert(`❌ Failed to save the article: ${error.message}`);
-            });
-    }
-</script>
+        // ✅ Attach Save Function to Button
+        document.getElementById("saveArticleBtn").addEventListener("click", saveArticle);
+    </script>
 
 </body>
 </html>
