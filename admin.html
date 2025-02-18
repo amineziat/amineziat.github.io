@@ -131,7 +131,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
 
 <script>
-    // ✅ Correct Firebase configuration
+    // ✅ Initialize Firebase FIRST
     const firebaseConfig = {
         apiKey: "AIzaSyAQW0cRH0ojOuGJHlKga7k0QMUoAS2uVAM",
         authDomain: "gamearticles-107b8.firebaseapp.com",
@@ -142,14 +142,23 @@
         appId: "1:138545072231:web:9f273d8ee3db3d0dbd6cc2"
     };
 
-    // ✅ Initialize Firebase FIRST
-    const app = firebase.initializeApp(firebaseConfig);
+    // ✅ Make sure Firebase is initialized
+    firebase.initializeApp(firebaseConfig);
 
-    // ✅ Then, initialize the database
-    const db = firebase.database();
+    // ✅ Initialize the database
+    let db;
+    document.addEventListener("DOMContentLoaded", function() {
+        db = firebase.database();
+        console.log("🔥 Firebase Database Ready!");
+    });
 
     // ✅ Save Article
     function saveArticle() {
+        if (!db) {
+            console.error("🔥 Database is not initialized yet!");
+            return;
+        }
+
         const title = document.getElementById('title').value;
         const description = document.getElementById('description').value;
         const image = document.getElementById('imagePreview').src;
@@ -168,7 +177,6 @@
             createdAt: new Date().toISOString()
         };
 
-        // ✅ Push article to Firebase
         db.ref('articles').push(article)
             .then(() => {
                 alert('✅ Article saved successfully!');
