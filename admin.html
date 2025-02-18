@@ -14,10 +14,12 @@
     <button onclick="saveArticle()">Publish</button>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-        const firebaseConfig = {
+    // Firebase Config (Replace with your real Firebase keys)
+    const firebaseConfig = {
   apiKey: "AIzaSyA53bXzBdgvedDkPyKAoWrXI7wuL51QrtY",
   authDomain: "play-to-earn-games.firebaseapp.com",
   projectId: "play-to-earn-games",
@@ -26,33 +28,36 @@
   appId: "1:482535090317:web:ceb45cf84d456a5abe9ac4"
 };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-        var quill = new Quill("#editor-container", { theme: "snow" });
+    // Define saveArticle function
+    async function saveArticle() {
+        const title = document.getElementById('title').value;
+        const content = quill.root.innerHTML;
 
-        async function saveArticle() {
-            const title = document.getElementById("title").value;
-            const content = quill.root.innerHTML;
-
-            if (!title.trim()) {
-                alert("Title is required!");
-                return;
-            }
-
-            try {
-                const docRef = await addDoc(collection(db, "articles"), {
-                    title: title,
-                    content: content,
-                    timestamp: new Date()
-                });
-                alert("Article Published!");
-                document.getElementById("title").value = "";
-                quill.root.innerHTML = "";
-            } catch (error) {
-                console.error("Error saving article:", error);
-            }
+        if (!title.trim()) {
+            alert("Title is required!");
+            return;
         }
-    </script>
+
+        try {
+            console.log("Saving article to Firebase...");
+            const docRef = await addDoc(collection(db, "articles"), {
+                title: title,
+                content: content,
+                timestamp: new Date()
+            });
+            console.log("Article saved successfully:", docRef.id);
+            alert("Article Published!");
+        } catch (error) {
+            console.error("Error saving article:", error);
+        }
+    }
+
+    window.saveArticle = saveArticle; // ✅ Make function accessible globally
+</script>
+
 </body>
 </html>
