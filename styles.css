@@ -51,6 +51,7 @@ body {
     top: 150px;
     display: flex;
     gap: 15px;
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.4));
 }
 
 .social-icons a {
@@ -72,6 +73,7 @@ body {
     flex-direction: column;
     gap: 15px;
     align-items: center;
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.4));
 }
 
 .btn {
@@ -103,4 +105,5 @@ body {
     left: 50%;
     transform: translateX(-50%);
     top: 300px;
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.4));
 }
