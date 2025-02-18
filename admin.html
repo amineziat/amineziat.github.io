@@ -83,7 +83,7 @@
     <!-- Quill.js Text Editor -->
     <div id="editor"></div>
 
-    <button onclick="saveArticle()">💾 Save Article</button>
+    <button>💾 Save Article</button>
 </div>
 
 <!-- Quill.js JS -->
@@ -131,9 +131,9 @@
 <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
 
 <script>
-    // ✅ Initialize Firebase FIRST
+    // Initialize Firebase
     const firebaseConfig = {
-        apiKey: "AIzaSyAQW0cRH0ojOuGJHlKga7k0QMUoAS2uVAM",
+        apiKey: "AIzaSyAQW0cRH0ojOuGJHlKga7k0QMUoAS2uVAM", // Replace with your actual API key
         authDomain: "gamearticles-107b8.firebaseapp.com",
         databaseURL: "https://gamearticles-107b8-default-rtdb.europe-west1.firebasedatabase.app/",
         projectId: "gamearticles-107b8",
@@ -141,21 +141,22 @@
         messagingSenderId: "138545072231",
         appId: "1:138545072231:web:9f273d8ee3db3d0dbd6cc2"
     };
-
-    // ✅ Make sure Firebase is initialized
     firebase.initializeApp(firebaseConfig);
 
-    // ✅ Initialize the database
     let db;
     document.addEventListener("DOMContentLoaded", function() {
         db = firebase.database();
         console.log("🔥 Firebase Database Ready!");
+
+        // Attach the event listener AFTER db is initialized
+        const saveButton = document.querySelector('button');
+        saveButton.addEventListener('click', saveArticle);
     });
 
-    // ✅ Save Article
     function saveArticle() {
         if (!db) {
             console.error("🔥 Database is not initialized yet!");
+            alert('An error occurred. Please try again later.');
             return;
         }
 
@@ -180,8 +181,7 @@
         db.ref('articles').push(article)
             .then(() => {
                 alert('✅ Article saved successfully!');
-
-                // ✅ Reset fields
+                // Reset fields
                 document.getElementById('title').value = '';
                 document.getElementById('description').value = '';
                 document.getElementById('imagePreview').src = '';
@@ -190,7 +190,7 @@
             })
             .catch((error) => {
                 console.error('🔥 Firebase Error:', error);
-                alert('❌ Failed to save the article.');
+                alert(`❌ Failed to save the article: ${error.message}`);
             });
     }
 </script>
