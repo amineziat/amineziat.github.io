@@ -142,8 +142,10 @@
         appId: "1:138545072231:web:9f273d8ee3db3d0dbd6cc2"
     };
 
-    // ✅ Initialize Firebase after config
+    // ✅ Initialize Firebase FIRST
     const app = firebase.initializeApp(firebaseConfig);
+
+    // ✅ Then, initialize the database
     const db = firebase.database();
 
     // ✅ Save Article
