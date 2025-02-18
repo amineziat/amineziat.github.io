@@ -4,13 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Play to Earn</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Keep existing styles -->
-    <script defer src="play-to-earn.js"></script> <!-- JavaScript to fetch Firebase data -->
 </head>
 <body>
     <h1>Play to Earn Games</h1>
-    <div id="games-list">
-        <!-- Games from Firebase will be loaded here -->
-    </div>
+    <div id="articles-list"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function loadArticles() {
+            const articlesList = document.getElementById("articles-list");
+            const querySnapshot = await getDocs(collection(db, "articles"));
+            querySnapshot.forEach((doc) => {
+                const article = doc.data();
+                const articleElement = document.createElement("div");
+                articleElement.innerHTML = `
+                    <h2><a href="article.html?id=${doc.id}">${article.title}</a></h2>
+                    <p>${article.content.substring(0, 100)}...</p>
+                    <hr>
+                `;
+                articlesList.appendChild(articleElement);
+            });
+        }
+
+        loadArticles();
+    </script>
 </body>
 </html>
