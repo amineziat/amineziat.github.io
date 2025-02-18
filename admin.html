@@ -131,7 +131,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
 
 <script>
-    // Firebase configuration
+    // ✅ Correct Firebase configuration
     const firebaseConfig = {
         apiKey: "AIzaSyAQW0cRH0ojOuGJHlKga7k0QMUoAS2uVAM",
         authDomain: "gamearticles-107b8.firebaseapp.com",
@@ -142,11 +142,11 @@
         appId: "1:138545072231:web:9f273d8ee3db3d0dbd6cc2"
     };
 
-    // Initialize Firebase
+    // ✅ Initialize Firebase after config
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // Save Article (moved inside Firebase initialization)
+    // ✅ Save Article
     function saveArticle() {
         const title = document.getElementById('title').value;
         const description = document.getElementById('description').value;
@@ -154,7 +154,7 @@
         const content = quill.root.innerHTML;
 
         if (!title || !description || !content || image === '') {
-            alert('Please fill in all fields and upload an image!');
+            alert('⚠️ Please fill in all fields and upload an image!');
             return;
         }
 
@@ -166,12 +166,12 @@
             createdAt: new Date().toISOString()
         };
 
-        // Push article to Firebase
+        // ✅ Push article to Firebase
         db.ref('articles').push(article)
             .then(() => {
                 alert('✅ Article saved successfully!');
 
-                // Reset fields
+                // ✅ Reset fields
                 document.getElementById('title').value = '';
                 document.getElementById('description').value = '';
                 document.getElementById('imagePreview').src = '';
@@ -179,7 +179,7 @@
                 quill.root.innerHTML = '';
             })
             .catch((error) => {
-                console.error('Error:', error);
+                console.error('🔥 Firebase Error:', error);
                 alert('❌ Failed to save the article.');
             });
     }
