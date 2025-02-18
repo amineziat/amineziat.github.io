@@ -124,11 +124,30 @@ imageInput.addEventListener('change', () => {
     }
 });
 
-    // Save Article to localStorage
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
+
+<script>
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyAQW0cRH0ojOuGJHlKga7k0QMUoAS2uVAM",
+        authDomain: "gamearticles-107b8.firebaseapp.com",
+        databaseURL: "https://gamearticles-107b8-default-rtdb.europe-west1.firebasedatabase.app/",
+        projectId: "gamearticles-107b8",
+        storageBucket: "gamearticles-107b8.firebasestorage.app",
+        messagingSenderId: "138545072231",
+        appId: "1:138545072231:web:9f273d8ee3db3d0dbd6cc2"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // Save Article to Firebase
     function saveArticle() {
-        const title = document.getElementById('title').value.trim();
-        const description = document.getElementById('description').value.trim();
-        const image = imagePreview.src;
+        const title = document.getElementById('title').value;
+        const description = document.getElementById('description').value;
+        const image = document.getElementById('imagePreview').src;
         const content = quill.root.innerHTML;
 
         if (!title || !description || !content || image === '') {
@@ -144,18 +163,22 @@ imageInput.addEventListener('change', () => {
             createdAt: new Date().toISOString()
         };
 
-        const articles = JSON.parse(localStorage.getItem('articles')) || [];
-        articles.push(article);
-        localStorage.setItem('articles', JSON.stringify(articles));
+        // Push article to Firebase
+        db.ref('articles').push(article)
+            .then(() => {
+                alert('Article saved successfully to Firebase! 🎯');
 
-        alert('✅ Article saved successfully!');
-
-        // Reset form
-        document.getElementById('title').value = '';
-        document.getElementById('description').value = '';
-        imagePreview.src = '';
-        imagePreview.style.display = 'none';
-        quill.root.innerHTML = '';
+                // Reset form
+                document.getElementById('title').value = '';
+                document.getElementById('description').value = '';
+                document.getElementById('imagePreview').src = '';
+                document.getElementById('imagePreview').style.display = 'none';
+                quill.root.innerHTML = '';
+            })
+            .catch((error) => {
+                console.error('Error saving article:', error);
+                alert('Failed to save article. Check the console for details.');
+            });
     }
 </script>
 
