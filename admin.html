@@ -3,32 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page</title>
+    <title>Admin Panel</title>
 
-    <!-- Quill.js for Rich Text Editor -->
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+
+    <!-- Quill.js for the Rich Text Editor -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        #editor-container { height: 200px; }
-        button { margin-top: 10px; padding: 10px; cursor: pointer; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        #editor {
+            height: 300px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
 
     <h1>Admin Page</h1>
-    
-    <label>Title:</label>
-    <input type="text" id="titleInput" placeholder="Enter title" />
+    <input type="text" id="titleInput" placeholder="Enter Title"><br><br>
+    <div id="editor"></div><br>
+    <button id="saveButton">Save</button>
 
-    <div id="editor-container"></div>
-
-    <button id="saveArticleBtn">Save Article</button>
-
-    <!-- Load Firebase & Admin Script -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
     <script src="admin.js"></script>
 
 </body>
