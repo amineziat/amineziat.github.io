@@ -6,13 +6,13 @@
     <title>Pixels Game Guide</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        /* Dark mode styles */
         body {
-            background: url('images/background.webp') no-repeat center center fixed;
-            background-size: cover;
+            background: #121212; /* Dark background */
+            color: white; /* White text */
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            color: black;
         }
 
         /* Header */
@@ -21,7 +21,7 @@
             color: white;
             padding: 20px 0;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
         }
 
         header h1 {
@@ -48,9 +48,9 @@
             margin: 30px auto;
             padding: 20px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.9);
+            background: #1e1e1e; /* Dark gray background */
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
         }
 
         /* Banner Image */
@@ -89,6 +89,16 @@
             margin-top: 20px;
         }
 
+        /* List items */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 5px 0;
+        }
+
     </style>
 </head>
 <body>
@@ -111,7 +121,7 @@
 
         <section>
             <h2>How to Play</h2>
-            <ul style="list-style: none; padding: 0;">
+            <ul>
                 <li>🔹 <b>Create an Account</b> – Sign up on the official Pixels site.</li>
                 <li>🌾 <b>Start Farming</b> – Plant crops, water them, and harvest.</li>
                 <li>🏠 <b>Build & Craft</b> – Expand your land and craft useful tools.</li>
