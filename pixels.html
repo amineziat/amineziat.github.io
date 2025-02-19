@@ -15,33 +15,37 @@
             color: white;
         }
 
-        /* Add a blurred overlay */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            z-index: -1;
+        /* Header */
+        header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5); /* Optional for contrast */
         }
 
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        /* Main content */
         main {
             max-width: 900px;
             margin: auto;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 10px;
             text-align: center;
         }
 
+        /* Banner Image */
         .banner {
-            max-width: 80%;
+            max-width: 100%;
             border-radius: 10px;
-            margin-bottom: 20px;
+            display: block;
+            margin: 0 auto;
         }
 
+        /* Play button */
         .btn {
             display: inline-block;
             background: #007bff;
@@ -51,18 +55,16 @@
             border-radius: 5px;
             margin-top: 10px;
             font-weight: bold;
+            transition: background 0.3s ease;
         }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 10px;
+        .btn:hover {
+            background: #0056b3;
         }
+
     </style>
 </head>
 <body>
-
-    <div class="overlay"></div> <!-- Blurry overlay -->
 
     <header>
         <h1>Pixels Game Guide</h1>
@@ -83,10 +85,10 @@
         <section>
             <h2>How to Play</h2>
             <ul>
-                <li>🔹 **Create an Account** – Sign up on the official Pixels site.</li>
-                <li>🌾 **Start Farming** – Plant crops, water them, and harvest.</li>
-                <li>🏠 **Build & Craft** – Expand your land and craft useful tools.</li>
-                <li>📈 **Trade & Earn** – Sell your produce and trade with others.</li>
+                <li>🔹 <b>Create an Account</b> – Sign up on the official Pixels site.</li>
+                <li>🌾 <b>Start Farming</b> – Plant crops, water them, and harvest.</li>
+                <li>🏠 <b>Build & Craft</b> – Expand your land and craft useful tools.</li>
+                <li>📈 <b>Trade & Earn</b> – Sell your produce and trade with others.</li>
             </ul>
         </section>
 
