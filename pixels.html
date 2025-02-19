@@ -6,22 +6,22 @@
     <title>Pixels Game Guide</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Dark mode styles */
+        /* Background image stays */
         body {
-            background: #121212; /* Dark background */
-            color: white; /* White text */
+            background: url('images/background.webp') no-repeat center center fixed;
+            background-size: cover;
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            color: white;
         }
 
         /* Header */
         header {
-            background: black;
+            background: rgba(0, 0, 0, 0.8); /* Dark semi-transparent background */
             color: white;
             padding: 20px 0;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
         }
 
         header h1 {
@@ -29,26 +29,28 @@
             font-size: 28px;
         }
 
-        /* Navigation */
+        /* Navigation - Centered */
         nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
             margin-top: 5px;
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            margin: 0 15px;
             font-size: 18px;
             font-weight: bold;
         }
 
-        /* Main content */
+        /* Main content box - Dark but visible */
         main {
             max-width: 900px;
             margin: 30px auto;
             padding: 20px;
             text-align: center;
-            background: #1e1e1e; /* Dark gray background */
+            background: rgba(0, 0, 0, 0.85); /* Dark background with transparency */
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
         }
@@ -84,7 +86,7 @@
         footer {
             text-align: center;
             padding: 15px 0;
-            background: black;
+            background: rgba(0, 0, 0, 0.8);
             color: white;
             margin-top: 20px;
         }
@@ -98,7 +100,6 @@
         li {
             padding: 5px 0;
         }
-
     </style>
 </head>
 <body>
@@ -106,7 +107,7 @@
     <header>
         <h1>Pixels Game Guide</h1>
         <nav>
-            <a href="index.html">Home</a> |
+            <a href="index.html">Home</a>
             <a href="play-to-earn.html">Play to Earn</a>
         </nav>
     </header>
@@ -136,7 +137,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Your Name</p>
+        <p>&copy; 2025 AMINE</p>
     </footer>
 
 </body>
