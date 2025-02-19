@@ -6,15 +6,15 @@
     <title>Firebase Test</title>
 </head>
 <body>
-    <h1>Firebase Test Page</h1>
-    <button id="test-button">Send Test Data</button>
+    <h1>Firebase Connection Test</h1>
+    <button onclick="testFirebase()">Test Firebase</button>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-    
-    <script>
-        // Firebase Configuration
+    <script type="module">
+        // Import Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+        // Firebase Config (Replace with your actual Firebase config)
         const firebaseConfig = {
             apiKey: "AIzaSyAQW0cRH0ojOuGJHlKga7k0QMUoAS2uVAM",
             authDomain: "gamearticles-107b8.firebaseapp.com",
@@ -26,22 +26,19 @@
         };
 
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-        console.log("✅ Firebase Initialized:", app);
-        console.log("✅ Database Object:", db);
-
-        document.getElementById("test-button").addEventListener("click", function () {
-            db.ref("/test-connection").push({
-                message: "Hello Firebase!",
-                timestamp: Date.now()
+        // Function to test Firebase connection
+        window.testFirebase = function() {
+            set(ref(db, "test/connection"), {
+                message: "Firebase is working!"
             }).then(() => {
-                alert("✅ Data sent successfully!");
+                alert("Data sent to Firebase successfully!");
             }).catch((error) => {
-                console.error("❌ Error sending data:", error);
+                alert("Firebase Error: " + error.message);
             });
-        });
+        };
     </script>
 </body>
 </html>
