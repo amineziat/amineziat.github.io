@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Test</title>
+</head>
+<body>
+    <h1>Firebase Test Page</h1>
+    <button id="test-button">Send Test Data</button>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+    
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAQW0cRH0ojOuGJHlKga7k0QMUoAS2uVAM",
+            authDomain: "gamearticles-107b8.firebaseapp.com",
+            databaseURL: "https://gamearticles-107b8-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "gamearticles-107b8",
+            storageBucket: "gamearticles-107b8.firebasestorage.app",
+            messagingSenderId: "138545072231",
+            appId: "1:138545072231:web:9f273d8ee3db3d0dbd6cc2"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        console.log("✅ Firebase Initialized:", app);
+        console.log("✅ Database Object:", db);
+
+        document.getElementById("test-button").addEventListener("click", function () {
+            db.ref("/test-connection").push({
+                message: "Hello Firebase!",
+                timestamp: Date.now()
+            }).then(() => {
+                alert("✅ Data sent successfully!");
+            }).catch((error) => {
+                console.error("❌ Error sending data:", error);
+            });
+        });
+    </script>
+</body>
+</html>
