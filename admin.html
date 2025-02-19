@@ -7,6 +7,7 @@
     <!-- Quill.js CSS -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <style>
+        /* Your existing CSS remains the same */
         body {
             font-family: 'Arial', sans-serif;
             display: flex;
@@ -60,32 +61,51 @@
         button:hover {
             background-color: #0056b3;
         }
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
 <div class="admin-container">
     <h2>🛠️ Admin Panel - Write an Article</h2>
-
-    <!-- Title Input -->
     <input type="text" id="title" placeholder="Article Title" />
-
-    <!-- Description Input -->
     <textarea id="description" placeholder="Game Description"></textarea>
-
-    <!-- Image Upload & Preview -->
     <input type="file" id="imageInput" accept="image/*" />
     <img id="imagePreview" class="image-preview" alt="Image Preview" />
-
-    <!-- Quill.js Text Editor -->
     <div id="editor"></div>
-
     <button onclick="saveArticle()">💾 Save Article</button>
+    <div id="loading" class="loading">Saving article... Please wait.</div>
 </div>
 
-<!-- Quill.js JS -->
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-storage-compat.js"></script>
+
+<!-- Quill.js -->
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
 <script>
+    // Firebase configuration
+    const firebaseConfig = {
+        // Replace with your Firebase config object
+        apiKey: "AIzaSyAQW0cRH0ojOuGJHlKga7k0QMUoAS2uVAM",
+        authDomain: "gamearticles-107b8.firebaseapp.com",
+        projectId: "gamearticles-107b8",
+        storageBucket: "gamearticles-107b8.firebasestorage.app",
+        messagingSenderId: "138545072231",
+        appId: "1:138545072231:web:9f273d8ee3db3d0dbd6cc2"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
     // Initialize Quill editor
     const quill = new Quill('#editor', {
         theme: 'snow',
@@ -104,6 +124,7 @@
     // Image Preview Handler
     const imageInput = document.getElementById('imageInput');
     const imagePreview = document.getElementById('imagePreview');
+    const loadingDiv = document.getElementById('loading');
 
     imageInput.addEventListener('change', function () {
         const file = this.files[0];
@@ -119,39 +140,57 @@
         }
     });
 
-    // Save Article to localStorage
-    function saveArticle() {
+    // Function to upload image to Firebase Storage
+    async function uploadImage(file) {
+        const timestamp = Date.now();
+        const storageRef = storage.ref();
+        const imageRef = storageRef.child(`articles/${timestamp}_${file.name}`);
+        await imageRef.put(file);
+        return await imageRef.getDownloadURL();
+    }
+
+    // Save Article to Firebase
+    async function saveArticle() {
         const title = document.getElementById('title').value;
         const description = document.getElementById('description').value;
-        const image = imagePreview.src;
         const content = quill.root.innerHTML;
+        const imageFile = imageInput.files[0];
 
-        if (!title || !description || !content || image === '') {
+        if (!title || !description || !content || !imageFile) {
             alert('Please fill in all fields and upload an image!');
             return;
         }
 
-        const article = {
-            title,
-            description,
-            image,
-            content,
-            createdAt: new Date().toISOString()
-        };
+        try {
+            loadingDiv.style.display = 'block';
 
-        // Retrieve existing articles or initialize an empty array
-        const articles = JSON.parse(localStorage.getItem('articles')) || [];
-        articles.push(article);
-        localStorage.setItem('articles', JSON.stringify(articles));
+            // Upload image to Firebase Storage
+            const imageUrl = await uploadImage(imageFile);
 
-        alert('Article saved successfully!');
+            // Save article data to Firestore
+            await db.collection('articles').add({
+                title,
+                description,
+                content,
+                imageUrl,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
 
-        // Reset form
-        document.getElementById('title').value = '';
-        document.getElementById('description').value = '';
-        imagePreview.src = '';
-        imagePreview.style.display = 'none';
-        quill.root.innerHTML = '';
+            alert('Article saved successfully!');
+
+            // Reset form
+            document.getElementById('title').value = '';
+            document.getElementById('description').value = '';
+            imagePreview.src = '';
+            imagePreview.style.display = 'none';
+            quill.root.innerHTML = '';
+            imageInput.value = '';
+        } catch (error) {
+            console.error('Error saving article:', error);
+            alert('Error saving article. Please try again.');
+        } finally {
+            loadingDiv.style.display = 'none';
+        }
     }
 </script>
 
