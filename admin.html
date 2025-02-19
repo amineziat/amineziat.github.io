@@ -9,7 +9,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
 
-    <!-- Quill.js for the Rich Text Editor -->
+    <!-- Quill.js for Rich Text Editor -->
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
@@ -20,15 +20,27 @@
             padding: 20px;
         }
 
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
         #editor {
             height: 300px;
         }
 
-        input {
+        #imagePreview {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            font-size: 16px;
+            max-height: 200px;
+            object-fit: cover;
+            margin-top: 10px;
+            display: none;
         }
 
         button {
@@ -48,9 +60,33 @@
 <body>
 
     <h1>Admin Page</h1>
-    <input type="text" id="titleInput" placeholder="Enter Title"><br><br>
-    <div id="editor"></div><br>
-    <button id="saveButton">Save</button>
+
+    <div class="input-group">
+        <label for="titleInput">Title:</label>
+        <input type="text" id="titleInput" placeholder="Enter Title">
+    </div>
+
+    <div class="input-group">
+        <label for="categoryInput">Category:</label>
+        <select id="categoryInput">
+            <option value="action">Action</option>
+            <option value="adventure">Adventure</option>
+            <option value="rpg">RPG</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label for="imageInput">Upload Image:</label>
+        <input type="file" id="imageInput">
+        <img id="imagePreview" src="#" alt="Image Preview">
+    </div>
+
+    <div class="input-group">
+        <label for="editor">Content:</label>
+        <div id="editor"></div>
+    </div>
+
+    <button id="saveButton">Save Article</button>
 
     <script src="admin.js"></script>
 
