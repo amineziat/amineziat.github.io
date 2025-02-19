@@ -12,7 +12,6 @@
         .btn { padding: 10px; background: #28a745; color: white; border: none; cursor: pointer; }
         .btn:hover { background: #218838; }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
 
@@ -41,18 +40,25 @@
             }
 
             console.log("Saving article...");
+            console.log("Title:", title);
+            console.log("Content:", content);
 
-            // Save to Supabase
-            const { data, error } = await supabase
-                .from("articles") // Table name
-                .insert([{ title, content, timestamp: new Date() }]);
+            try {
+                // Save to Supabase
+                const { data, error } = await supabase
+                    .from("articles") // Table name
+                    .insert([{ title, content, timestamp: new Date() }]);
 
-            if (error) {
-                console.error("Error:", error.message);
-                alert("Failed to save article!");
-            } else {
-                console.log("Saved:", data);
-                alert("Article saved successfully!");
+                if (error) {
+                    console.error("Supabase Error:", error);
+                    alert("Failed to save article! Check the console for details.");
+                } else {
+                    console.log("Saved Data:", data);
+                    alert("Article saved successfully!");
+                }
+            } catch (err) {
+                console.error("Unexpected Error:", err);
+                alert("An unexpected error occurred. Check the console for details.");
             }
         });
     </script>
